@@ -1,0 +1,19 @@
+<div
+  *ngFor="let product of displayedProducts"
+  (click)="openProductModal(product.id)"
+>
+  <app-product [product]="product"></app-product>
+</div>
+
+<div class="pagination">
+  <ngb-pagination
+    [collectionSize]="totalItems"
+    [(page)]="currentPage"
+    [pageSize]="pageSize"
+    [maxSize]="5"
+    [rotate]="true"
+    [ellipses]="false"
+    [boundaryLinks]="true"
+    (pageChange)="onPageChange($event)"
+  ></ngb-pagination>
+</div>

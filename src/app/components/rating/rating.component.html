@@ -1,0 +1,9 @@
+<ngb-rating class="stars" [(rate)]="rating" [readonly]="true" [max]="5">
+  <ng-template let-fill="fill" let-index="index">
+    <i
+      class="bi-star{{ fill === 100 ? '-fill' : '' }}"
+      [class.filled]="fill === 100"
+      [class.low]="index < 3"
+    ></i>
+  </ng-template>
+</ngb-rating>

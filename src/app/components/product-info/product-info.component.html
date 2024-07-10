@@ -1,0 +1,37 @@
+<div class="product-info">
+  <img [src]="product.thumbnail" [alt]="product.title" class="img-fluid mb-3" />
+  <h2>{{ product.title }}</h2>
+  <p>{{ product.description }}</p>
+  <p><strong>Price:</strong> ${{ product.price }}</p>
+  <p><strong>Brand:</strong> {{ product.brand }}</p>
+  <p><strong>Category:</strong> {{ product.category }}</p>
+  <p class="rating">
+    <strong>Rating:</strong> {{ formatRating(product.rating) }}/5
+    <app-rating class="stars" [rating]="product.rating"></app-rating>
+  </p>
+  <p><strong>Stock:</strong> {{ product.stock }}</p>
+
+  <div *ngIf="product.reviews && product.reviews.length > 0">
+    <h4>Reviews:</h4>
+    <div class="col review-container">
+      <div *ngFor="let review of product.reviews" class="mb-3">
+        <div class="review">
+          <div class="name-rating">
+            <h5>{{ review.reviewerName }}</h5>
+            <app-rating class="stars" [rating]="review.rating"></app-rating>
+          </div>
+          <p>{{ review.comment }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="product.images && product.images.length > 1">
+    <h4>Additional Images:</h4>
+    <div class="row">
+      <div *ngFor="let image of product.images" class="col-4 mb-3">
+        <img [src]="image" [alt]="product.title" class="img-fluid" />
+      </div>
+    </div>
+  </div>
+</div>

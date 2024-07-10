@@ -1,0 +1,17 @@
+.cart {
+  position: absolute;
+  right: 80px;
+  font-size: 3em;
+
+  .cart-content {
+    position: relative;
+    .badge {
+      position: absolute;
+      top: 0;
+      right: -5px;
+      background-color: red;
+      font-size: 14px;
+      border-radius: 100%;
+    }
+  }
+}

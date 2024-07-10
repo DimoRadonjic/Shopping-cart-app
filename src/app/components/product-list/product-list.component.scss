@@ -1,0 +1,17 @@
+.product-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  place-content: center;
+  place-items: start;
+  max-width: fit-content;
+  row-gap: 20px;
+  padding: 0;
+  min-width: 40%;
+}
+
+.pagination {
+  width: 100%;
+  display: flex;
+  place-content: center;
+  place-items: center;
+}

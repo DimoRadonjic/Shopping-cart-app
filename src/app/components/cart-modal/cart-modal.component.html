@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <h4 class="modal-title">Cart Details</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <div *ngIf="!loading && product">
+    <div>list of products in cart</div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div>Total price :</div>
+  <div class="stock-operations">
+    <button class="add">Checkout</button>
+    <button class="remove">Cancel</button>
+  </div>
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="activeModal.close('Close click')"
+  >
+    Close
+  </button>
+</div>

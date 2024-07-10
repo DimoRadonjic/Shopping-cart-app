@@ -1,0 +1,20 @@
+.rating {
+  .stars {
+    margin-left: 8px;
+    i {
+      font-size: 18px !important;
+    }
+  }
+}
+
+.name-rating {
+  display: flex;
+  width: 100%;
+  place-content: start;
+  place-items: center;
+  column-gap: 20px;
+}
+
+.review-container {
+  width: 100%;
+}

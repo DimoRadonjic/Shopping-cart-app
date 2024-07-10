@@ -1,0 +1,22 @@
+.search-product {
+  display: flex;
+  place-content: center;
+  place-items: center;
+  column-gap: 12px;
+  width: 100%;
+  margin: 20px 0;
+  .container {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    place-content: space-between;
+    place-items: center;
+    p {
+      margin: 0;
+    }
+    input {
+      width: 100%;
+      max-width: 350px;
+    }
+  }
+}

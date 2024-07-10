@@ -1,0 +1,25 @@
+<div class="search-product">
+  <div class="container">
+    <input
+      type="text"
+      placeholder="Search product by title"
+      [(ngModel)]="searchText"
+      (input)="applyFilter()"
+    />
+  </div>
+  <div class="row mb-3">
+    <div class="col">
+      <label for="pageSize">Results per page:</label>
+      <select
+        id="pageSize"
+        [(ngModel)]="pageSize"
+        (ngModelChange)="onPageSizeChange()"
+      >
+        <option [ngValue]="5">5</option>
+        <option [ngValue]="10">10</option>
+        <option [ngValue]="20">20</option>
+        <option [ngValue]="50">50</option>
+      </select>
+    </div>
+  </div>
+</div>
