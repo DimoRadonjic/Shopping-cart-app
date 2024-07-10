@@ -69,10 +69,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "codemine-task:build:production"
+              "buildTarget": "codemine-task:build:production"
             },
             "development": {
-              "browserTarget": "codemine-task:build:development"
+              "buildTarget": "codemine-task:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "codemine-task:build"
+            "buildTarget": "codemine-task:build"
           }
         },
         "test": {
