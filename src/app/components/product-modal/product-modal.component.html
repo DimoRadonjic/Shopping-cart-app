@@ -20,10 +20,9 @@
   </div>
 </div>
 <div class="modal-footer">
-  <div class="stock-operations">
-    <button class="add">Add</button>
-    <button class="remove">Remove</button>
-  </div>
+  <app-stock-operations-buttons
+    [product]="product"
+  ></app-stock-operations-buttons>
   <button
     type="button"
     class="btn btn-secondary"

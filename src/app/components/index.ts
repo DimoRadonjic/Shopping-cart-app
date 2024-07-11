@@ -6,6 +6,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { ProductModalComponent } from './product-modal/product-modal.component';
 import { RatingComponent } from './rating/rating.component';
 import { ListOptionsComponent } from './list-options/list-options.component';
+import { StockOperationsButtonsComponent } from './stock-operations-buttons/stock-operations-buttons.component';
 
 export {
   ProductComponent,
@@ -16,4 +17,5 @@ export {
   ProductModalComponent,
   RatingComponent,
   ListOptionsComponent,
+  StockOperationsButtonsComponent,
 };

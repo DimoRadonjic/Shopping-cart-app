@@ -1,51 +1,138 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import {
+  map,
+  switchMap,
+  debounceTime,
+  distinctUntilChanged,
+} from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 import { Product } from '../components/product/product.model';
+import {
+  setCurrentPage,
+  setPageSize,
+  setSearchText,
+} from '../store/actions/filter.actions';
+import {
+  addInCartProducts,
+  removeFromCartProducts,
+  setProducts,
+  setTotalProducts,
+} from '../store/actions/product.actions';
+
 @Injectable({
   providedIn: 'root',
 })
 export class ProductListService {
   private apiUrl = 'https://dummyjson.com/products';
 
-  constructor(private http: HttpClient) {}
+  private searchTextSubject = new BehaviorSubject<string>('');
+  private pageSizeSubject = new BehaviorSubject<number>(5);
+  private currentPageSubject = new BehaviorSubject<number>(1);
+  private currentInCartProducts = new BehaviorSubject<Product[]>([]);
 
-  fetchProductsPerPage(
-    currentPage: number,
-    pageSize: number
-  ): Observable<{ allProducts: Product[]; totalItems: number }> {
+  searchText$ = this.searchTextSubject.asObservable();
+  pageSize$ = this.pageSizeSubject.asObservable();
+  currentPage$ = this.currentPageSubject.asObservable();
+  currentInCartProducts$ = this.currentInCartProducts.asObservable();
+
+  products$!: Observable<Product[]>;
+  totalProducts$!: Observable<number>;
+
+  constructor(
+    private http: HttpClient,
+    private store: Store<{
+      filter: {
+        searchText: string;
+        pageSize: number;
+        currentPage: number;
+      };
+      products: {
+        products: Product[];
+        displayedProducts: Product[];
+        totalProducts: number;
+      };
+    }>
+  ) {
+    this.initializeDataStreams();
+  }
+
+  private initializeDataStreams() {
+    const filter$ = combineLatest([
+      this.searchText$,
+      this.pageSize$,
+      this.currentPage$,
+    ]).pipe(
+      debounceTime(300),
+      distinctUntilChanged(
+        (prev, curr) =>
+          prev[0] === curr[0] && prev[1] === curr[1] && prev[2] === curr[2]
+      )
+    );
+
+    const response$ = filter$.pipe(
+      switchMap(([searchText, pageSize, currentPage]) =>
+        this.fetchProducts(searchText, pageSize, currentPage)
+      )
+    );
+
+    this.products$ = response$.pipe(map((response) => response.products));
+    this.totalProducts$ = response$.pipe(map((response) => response.total));
+
+    this.products$.subscribe((products) => {
+      this.store.dispatch(setProducts({ productsArr: products }));
+    });
+
+    this.totalProducts$.subscribe((total) => {
+      this.store.dispatch(setTotalProducts({ totalProductsNum: total }));
+    });
+  }
+
+  private fetchProducts(
+    searchText: string,
+    pageSize: number,
+    currentPage: number
+  ): Observable<any> {
     const skip = (currentPage - 1) * pageSize;
-    const productsUrl = `${this.apiUrl}?limit=${pageSize}&skip=${skip}`;
+    let url = `${this.apiUrl}?limit=${pageSize}&skip=${skip}`;
 
-    return this.http
-      .get<{ products: Product[]; total: number }>(productsUrl)
-      .pipe(
-        map((data) => ({
-          allProducts: data.products,
-          totalItems: data.total,
-        }))
-      );
+    if (searchText) {
+      url = `${this.apiUrl}/search?q=${searchText}&limit=${pageSize}&skip=${skip}`;
+    }
+
+    return this.http.get<any>(url);
   }
 
-  fetchProductsSearch(
-    searchText: string
-  ): Observable<{ allProducts: Product[]; totalItems: number }> {
-    const searchUrl = `https://dummyjson.com/products/search?q=${searchText}`;
-
-    return this.http
-      .get<{ products: Product[]; total: number }>(searchUrl)
-      .pipe(
-        map((data) => ({
-          allProducts: data.products,
-          totalItems: data.total,
-        }))
-      );
+  setSearchText(searchText: string) {
+    this.searchTextSubject.next(searchText);
+    this.store.dispatch(setSearchText({ searchString: searchText }));
+    this.setCurrentPage(1);
   }
 
-  // updateDisplayedProducts() {
-  //   const startIndex = (this.currentPage - 1) * this.pageSize;
-  //   const endIndex = startIndex + this.pageSize;
-  //   console.log(this.allProducts);
-  //   this.displayedProducts = this.allProducts.slice(startIndex, endIndex);
-  // }
+  addInCartProducts(inCartProduct: Product) {
+    this.currentInCartProducts.next([
+      ...this.currentInCartProducts.value,
+      inCartProduct,
+    ]);
+    this.store.dispatch(addInCartProducts({ inCartProduct, quantity: 1 }));
+    // this.setCurrentPage(1);
+  }
+
+  removeFromCart(productToRemove: Product) {
+    this.store.dispatch(
+      removeFromCartProducts({ toRemoveProductId: productToRemove.id })
+    );
+  }
+
+  setPageSize(pageSize: number) {
+    this.pageSizeSubject.next(pageSize);
+    this.store.dispatch(setPageSize({ size: pageSize }));
+    this.setCurrentPage(1);
+  }
+
+  setCurrentPage(page: number) {
+    this.currentPageSubject.next(page);
+    this.store.dispatch(setCurrentPage({ page }));
+  }
 }

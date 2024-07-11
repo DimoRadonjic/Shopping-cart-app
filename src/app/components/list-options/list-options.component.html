@@ -3,8 +3,8 @@
     <input
       type="text"
       placeholder="Search product by title"
-      [(ngModel)]="searchText"
-      (input)="applyFilter()"
+      [ngModel]="searchText"
+      (ngModelChange)="applyFilter($event)"
     />
   </div>
   <div class="row mb-3">
@@ -12,8 +12,8 @@
       <label for="pageSize">Results per page:</label>
       <select
         id="pageSize"
-        [(ngModel)]="pageSize"
-        (ngModelChange)="onPageSizeChange()"
+        [ngModel]="pageSize"
+        (ngModelChange)="onPageSizeChange($event)"
       >
         <option [ngValue]="5">5</option>
         <option [ngValue]="10">10</option>

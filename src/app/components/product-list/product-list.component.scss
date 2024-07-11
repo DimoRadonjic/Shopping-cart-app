@@ -15,3 +15,18 @@
   place-content: center;
   place-items: center;
 }
+
+.product-container {
+  position: relative;
+
+  .buttons-container {
+    position: absolute;
+    width: 100%;
+    left: 210px;
+    bottom: 0;
+    .buttons {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+}
