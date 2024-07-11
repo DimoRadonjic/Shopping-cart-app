@@ -6,6 +6,12 @@ export const setProducts = createAction(
   props<{ productsArr: Product[] }>()
 );
 
+export const setTotalProducts = createAction(
+  '[Product API] Set Total Products',
+  props<{ totalProductsNum: number }>()
+);
+
+//Cart
 export const addInCartProducts = createAction(
   '[Cart Component] Add In Cart Products',
   props<{ inCartProduct: Product; quantity: number }>()
@@ -16,7 +22,8 @@ export const removeFromCartProducts = createAction(
   props<{ toRemoveProductId: number }>()
 );
 
-export const setTotalProducts = createAction(
-  '[Product API] Set Total Products',
-  props<{ totalProductsNum: number }>()
+export const totalCartProducts = createAction(
+  '[Cart Component] Total Cart Products'
 );
+
+export const totalCartPrice = createAction('[Cart Component] Total Cart Price');

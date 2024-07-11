@@ -5,11 +5,6 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Product } from '../product/product.model';
-import {
-  addInCartProducts,
-  removeFromCartProducts,
-} from 'src/app/store/actions/product.actions';
-
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -45,7 +40,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
         totalProducts: number;
       };
     }>,
-    private modalService: NgbModal,
     config: NgbPaginationConfig
   ) {
     this.filter$ = this.store.select('filter');
@@ -60,11 +54,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  openProductModal(productId: number) {
-    this.modalService.open(ProductModalComponent).componentInstance.productId =
-      productId;
   }
 
   fetchProductsFromStore() {

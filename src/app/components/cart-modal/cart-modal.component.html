@@ -10,17 +10,25 @@
   </button>
 </div>
 <div class="modal-body">
-  <div *ngIf="loading" class="text-center">
-    <div class="spinner-border" role="status">
-      <span class="sr-only">Loading...</span>
+  <div *ngIf="inCartProducts.length > 0; else emptyTemplate">
+    <div class="product-container" *ngFor="let inCartProduct of inCartProducts">
+      <app-product
+        [product]="inCartProduct.product"
+        [inCart]="true"
+        [quantity]="inCartProduct.quantity"
+      ></app-product>
+      <div class="buttons-container">
+        <app-stock-operations-buttons
+          class="buttons"
+          [product]="inCartProduct.product"
+        ></app-stock-operations-buttons>
+      </div>
     </div>
   </div>
-  <div *ngIf="!loading && product">
-    <div>list of products in cart</div>
-  </div>
+  <ng-template #emptyTemplate> No Products </ng-template>
 </div>
 <div class="modal-footer">
-  <div>Total price :</div>
+  <div>Total price : {{ totalCartPrice }}</div>
   <div class="stock-operations">
     <button class="add">Checkout</button>
     <button class="remove">Cancel</button>

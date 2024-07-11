@@ -1,8 +1,8 @@
-<div (click)="openCartModal(cartOpen)">
+<div (click)="openCartModal()">
   <div class="cart">
     <div class="cart-content">
       <i class="bi bi-bag-fill"></i>
-      <div class="badge">1</div>
+      <div class="badge">{{ totalCartProducts }}</div>
     </div>
   </div>
 </div>

@@ -1,7 +1,5 @@
 <div class="product-container" *ngFor="let product of displayedProducts">
-  <div (click)="openProductModal(product.id)">
-    <app-product [product]="product"></app-product>
-  </div>
+  <app-product [product]="product" [inCart]="false"></app-product>
   <div class="buttons-container">
     <app-stock-operations-buttons
       class="buttons"

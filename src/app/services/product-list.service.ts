@@ -110,21 +110,6 @@ export class ProductListService {
     this.setCurrentPage(1);
   }
 
-  addInCartProducts(inCartProduct: Product) {
-    this.currentInCartProducts.next([
-      ...this.currentInCartProducts.value,
-      inCartProduct,
-    ]);
-    this.store.dispatch(addInCartProducts({ inCartProduct, quantity: 1 }));
-    // this.setCurrentPage(1);
-  }
-
-  removeFromCart(productToRemove: Product) {
-    this.store.dispatch(
-      removeFromCartProducts({ toRemoveProductId: productToRemove.id })
-    );
-  }
-
   setPageSize(pageSize: number) {
     this.pageSizeSubject.next(pageSize);
     this.store.dispatch(setPageSize({ size: pageSize }));
@@ -134,5 +119,21 @@ export class ProductListService {
   setCurrentPage(page: number) {
     this.currentPageSubject.next(page);
     this.store.dispatch(setCurrentPage({ page }));
+  }
+
+  //Cart
+
+  addInCartProducts(inCartProduct: Product) {
+    this.currentInCartProducts.next([
+      ...this.currentInCartProducts.value,
+      inCartProduct,
+    ]);
+    this.store.dispatch(addInCartProducts({ inCartProduct, quantity: 1 }));
+  }
+
+  removeFromCart(productToRemove: Product) {
+    this.store.dispatch(
+      removeFromCartProducts({ toRemoveProductId: productToRemove.id })
+    );
   }
 }
