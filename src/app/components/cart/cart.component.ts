@@ -6,8 +6,8 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { CartModalComponent } from '../cart-modal/cart-modal.component';
 import { Store } from '@ngrx/store';
-import { Product } from '../product/product.model';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { Product } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'app-cart',

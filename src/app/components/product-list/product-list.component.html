@@ -1,22 +1,48 @@
-<div class="product-container" *ngFor="let product of displayedProducts">
-  <app-product [product]="product" [inCart]="false"></app-product>
-  <div class="buttons-container">
-    <app-stock-operations-buttons
-      class="buttons"
-      [product]="product"
-    ></app-stock-operations-buttons>
+<div *ngIf="!inCart; else inCartTemplate">
+  <div class="product-container" *ngFor="let product of displayedProducts">
+    <app-product [product]="product" [inCart]="false"></app-product>
+    <div class="buttons-container">
+      <app-stock-operations-buttons
+        class="buttons"
+        [product]="product"
+      ></app-stock-operations-buttons>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <ngb-pagination
+      [collectionSize]="totalItems"
+      [(page)]="currentPage"
+      [pageSize]="pageSize"
+      [maxSize]="5"
+      [rotate]="true"
+      [ellipses]="false"
+      [boundaryLinks]="true"
+      (pageChange)="onPageChange($event)"
+    ></ngb-pagination>
   </div>
 </div>
 
-<div class="pagination">
-  <ngb-pagination
-    [collectionSize]="totalItems"
-    [(page)]="currentPage"
-    [pageSize]="pageSize"
-    [maxSize]="5"
-    [rotate]="true"
-    [ellipses]="false"
-    [boundaryLinks]="true"
-    (pageChange)="onPageChange($event)"
-  ></ngb-pagination>
-</div>
+<ng-template #inCartTemplate>
+  <div *ngIf="displayedProducts.length > 0; else emptyTemplate">
+    <div
+      class="product-container"
+      *ngFor="let inCartProduct of displayedProducts"
+    >
+      <app-product
+        [product]="inCartProduct.product"
+        [inCart]="true"
+        [quantity]="inCartProduct.quantity"
+      ></app-product>
+      <div class="buttons-container">
+        <app-stock-operations-buttons
+          class="buttons"
+          [product]="inCartProduct.product"
+        ></app-stock-operations-buttons>
+      </div>
+    </div>
+  </div>
+  <ng-template #emptyTemplate>
+    <div>No Products</div>
+  </ng-template>
+</ng-template>

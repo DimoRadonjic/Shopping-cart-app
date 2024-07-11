@@ -1,0 +1,134 @@
+<div class="modal-header">
+  <h4 class="modal-title">Checkout</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        formControlName="name"
+        placeholder="John Doe"
+      />
+      <div
+        *ngIf="
+          checkoutForm.get('name')?.touched && checkoutForm.get('name')?.invalid
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="checkoutForm.get('name')?.errors?.['required']">
+          Name is required.
+        </div>
+        <div *ngIf="checkoutForm.get('name')?.errors?.['pattern']">
+          Only letters are allowed.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input
+        type="text"
+        class="form-control"
+        id="address"
+        formControlName="address"
+        placeholder="123 Main St, City, Country"
+      />
+      <div
+        *ngIf="
+          checkoutForm.get('address')?.touched &&
+          checkoutForm.get('address')?.invalid
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="checkoutForm.get('address')?.errors?.['required']">
+          Address is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        formControlName="email"
+        placeholder="john@example.com"
+      />
+      <div
+        *ngIf="
+          checkoutForm.get('email')?.touched &&
+          checkoutForm.get('email')?.invalid
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="checkoutForm.get('email')?.errors?.['required']">
+          Email is required.
+        </div>
+        <div *ngIf="checkoutForm.get('email')?.errors?.['email']">
+          Invalid email format.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="telephone">Telephone</label>
+      <input
+        type="tel"
+        class="form-control"
+        id="telephone"
+        formControlName="telephone"
+        placeholder="+1234567890"
+      />
+      <div
+        *ngIf="
+          checkoutForm.get('telephone')?.touched &&
+          checkoutForm.get('telephone')?.invalid
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="checkoutForm.get('telephone')?.errors?.['required']">
+          Telephone is required.
+        </div>
+        <div *ngIf="checkoutForm.get('telephone')?.errors?.['pattern']">
+          Invalid telephone format.
+        </div>
+      </div>
+    </div>
+
+    <h5>Selected Items</h5>
+    <app-product-list [inCart]="true"></app-product-list>
+
+    <p class="text-right mt-3">
+      <strong>Total: ${{ total.toFixed(2) }}</strong>
+    </p>
+  </form>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="activeModal.dismiss('Cancel click')"
+  >
+    Cancel
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    [disabled]="!checkoutForm.valid"
+    (click)="onSubmit()"
+  >
+    Submit
+  </button>
+</div>

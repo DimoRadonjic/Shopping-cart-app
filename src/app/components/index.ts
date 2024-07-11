@@ -8,6 +8,9 @@ import { RatingComponent } from './rating/rating.component';
 import { ListOptionsComponent } from './list-options/list-options.component';
 import { StockOperationsButtonsComponent } from './stock-operations-buttons/stock-operations-buttons.component';
 
+import { CheckoutComponent } from './checkout-form/checkout-form.component';
+import { ToastsContainer } from './toast-global/toasts-container.component';
+
 export {
   ProductComponent,
   ProductListComponent,
@@ -18,4 +21,6 @@ export {
   RatingComponent,
   ListOptionsComponent,
   StockOperationsButtonsComponent,
+  CheckoutComponent,
+  ToastsContainer,
 };

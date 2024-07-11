@@ -16,6 +16,8 @@ import {
   RatingComponent,
   ListOptionsComponent,
   StockOperationsButtonsComponent,
+  CheckoutComponent,
+  ToastsContainer,
 } from './components';
 import {
   NgbModalModule,
@@ -24,11 +26,12 @@ import {
   NgbRatingModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { ProductListService } from './services';
+import { ProductListService, ToastService } from './services';
 import { StoreModule } from '@ngrx/store';
 import { filterReducer } from './store/reducers/filter.reducer';
 import { GlobalProductService } from './global-product.service';
 import { productReducer } from './store/reducers/product.reducer';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -41,6 +44,7 @@ import { productReducer } from './store/reducers/product.reducer';
     CartComponent,
     CartModalComponent,
     ListOptionsComponent,
+    CheckoutComponent,
     StockOperationsButtonsComponent,
   ],
   bootstrap: [AppComponent],
@@ -52,6 +56,8 @@ import { productReducer } from './store/reducers/product.reducer';
     NgbPaginationModule,
     NgbModalModule,
     NgbRatingModule,
+    ToastsContainer,
+    ReactiveFormsModule,
     StoreModule.forRoot(
       { filter: filterReducer, products: productReducer },
       {}
@@ -60,6 +66,7 @@ import { productReducer } from './store/reducers/product.reducer';
   providers: [
     ProductListService,
     GlobalProductService,
+    ToastService,
     provideHttpClient(withInterceptorsFromDi()),
   ],
 })

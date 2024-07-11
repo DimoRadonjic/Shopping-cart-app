@@ -8,7 +8,7 @@ import {
   distinctUntilChanged,
 } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { Product } from '../components/product/product.model';
+import { Product } from 'src/app/interfaces/interfaces';
 import {
   setCurrentPage,
   setPageSize,

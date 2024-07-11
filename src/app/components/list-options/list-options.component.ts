@@ -3,7 +3,7 @@ import { ProductListService } from 'src/app/services';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { Product } from '../product/product.model';
+import { Product } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'app-list-options',

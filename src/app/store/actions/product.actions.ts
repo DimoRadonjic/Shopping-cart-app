@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Product } from 'src/app/components/product/product.model';
+import { Product } from 'src/app/interfaces/interfaces';
 
 export const setProducts = createAction(
   '[Product API] Set Products',

@@ -6,7 +6,7 @@ import {
   removeFromCartProducts,
   totalCartProducts,
 } from '../actions/product.actions';
-import { Product } from 'src/app/components/product/product.model';
+import { Product } from 'src/app/interfaces/interfaces';
 
 export const productsInitialState = {
   products: [] as Product[],

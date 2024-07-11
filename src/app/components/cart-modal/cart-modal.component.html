@@ -30,7 +30,7 @@
 <div class="modal-footer">
   <div>Total price : {{ totalCartPrice }}</div>
   <div class="stock-operations">
-    <button class="add">Checkout</button>
+    <button class="add" (click)="openCheckoutModal()">Checkout</button>
     <button class="remove">Cancel</button>
   </div>
   <button

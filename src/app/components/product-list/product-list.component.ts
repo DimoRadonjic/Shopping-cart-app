@@ -1,16 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { NgbModal, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ProductModalComponent } from 'src/app/components/product-modal/product-modal.component';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Product } from '../product/product.model';
+import { Product } from 'src/app/interfaces/interfaces';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit, OnDestroy {
+  @Input() inCart: boolean = false;
+
   filter$: Observable<{
     searchText: string;
     pageSize: number;
@@ -20,6 +22,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     products: Product[];
     displayedProducts: Product[];
     totalProducts: number;
+    inCart: { product: Product; quantity: number }[];
   }>;
   displayedProducts: any[] = [];
   currentPage = 1;
@@ -37,6 +40,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       products: {
         products: Product[];
         displayedProducts: Product[];
+        inCart: { product: Product; quantity: number }[];
         totalProducts: number;
       };
     }>,
@@ -57,10 +61,17 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   fetchProductsFromStore() {
-    this.productStore$.pipe(takeUntil(this.destroy$)).subscribe((state) => {
-      this.displayedProducts = state.products;
-      this.totalItems = state.totalProducts;
-    });
+    if (!this.inCart) {
+      this.productStore$.pipe(takeUntil(this.destroy$)).subscribe((state) => {
+        this.displayedProducts = state.products;
+        this.totalItems = state.totalProducts;
+      });
+    } else {
+      this.productStore$.pipe(takeUntil(this.destroy$)).subscribe((state) => {
+        this.displayedProducts = state.inCart;
+        this.totalItems = state.inCart.length;
+      });
+    }
   }
 
   onPageChange(page: number) {

@@ -1,10 +1,10 @@
 // src/app/product-modal/product-modal.component.ts
 import { Component, Input, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { Product } from '../product/product.model';
+import { CheckoutComponent } from 'src/app/components/checkout-form/checkout-form.component';
+import { Product } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'app-cart-modal',
@@ -43,13 +43,18 @@ export class CartModalComponent implements OnInit {
         totalCartPrice: number;
       };
     }>,
-    public activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal,
+    private modalService: NgbModal
   ) {
     this.cart$ = this.store.select('products');
   }
 
   ngOnInit(): void {
     this.fetchProductsFromStore();
+  }
+
+  openCheckoutModal(): void {
+    this.modalService.open(CheckoutComponent);
   }
 
   fetchProductsFromStore() {

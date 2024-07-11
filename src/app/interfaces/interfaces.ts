@@ -1,3 +1,21 @@
+export interface Item {
+  id: number;
+  name: string;
+  quantity: number;
+  price: number;
+}
+
+export interface CheckoutForm {
+  name: string;
+  address: string;
+  email: string;
+  telephone: string;
+}
+
+export interface CheckoutPayload extends CheckoutForm {
+  items: Item[];
+}
+
 export interface Review {
   rating: number;
   comment: string;
