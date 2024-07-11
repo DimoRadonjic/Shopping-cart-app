@@ -11,7 +11,11 @@ import { ToastService } from 'src/app/services/toast-service';
 export class StockOperationsButtonsComponent {
   @Input() product!: Product;
   @ViewChild('successTpl', { static: true }) successTpl!: TemplateRef<any>;
-  @ViewChild('dangerTpl', { static: true }) dangerTpl!: TemplateRef<any>;
+  @ViewChild('failedTpl', { static: true }) dangerTpl!: TemplateRef<any>;
+  @ViewChild('successCheckoutTpl', { static: true })
+  successCheckoutTpl!: TemplateRef<any>;
+  @ViewChild('failedCheckoutTpl', { static: true })
+  failedCheckoutTpl!: TemplateRef<any>;
 
   constructor(
     private productListService: ProductListService,

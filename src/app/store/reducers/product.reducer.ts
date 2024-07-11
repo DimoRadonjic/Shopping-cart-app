@@ -5,6 +5,7 @@ import {
   addInCartProducts,
   removeFromCartProducts,
   totalCartProducts,
+  clearCart,
 } from '../actions/product.actions';
 import { Product } from 'src/app/interfaces/interfaces';
 
@@ -54,6 +55,16 @@ export const productReducer = createReducer(
         (acc, item) => acc + item.product.price * item.quantity,
         0
       ),
+    };
+  }),
+
+  on(clearCart, (state) => {
+    return {
+      ...state,
+      inCart: [],
+
+      totalCartProducts: 0,
+      totalCartPrice: 0,
     };
   }),
   on(removeFromCartProducts, (state, { toRemoveProductId }) => {

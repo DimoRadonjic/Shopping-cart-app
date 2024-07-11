@@ -16,6 +16,7 @@ import {
 } from '../store/actions/filter.actions';
 import {
   addInCartProducts,
+  clearCart,
   removeFromCartProducts,
   setProducts,
   setTotalProducts,
@@ -129,6 +130,11 @@ export class ProductListService {
       inCartProduct,
     ]);
     this.store.dispatch(addInCartProducts({ inCartProduct, quantity: 1 }));
+  }
+
+  clearCart() {
+    this.currentInCartProducts.next([]);
+    this.store.dispatch(clearCart());
   }
 
   removeFromCart(productToRemove: Product) {

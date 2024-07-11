@@ -27,3 +27,5 @@ export const totalCartProducts = createAction(
 );
 
 export const totalCartPrice = createAction('[Cart Component] Total Cart Price');
+
+export const clearCart = createAction('[Cart Component] Clear Cart');

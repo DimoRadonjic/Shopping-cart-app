@@ -111,7 +111,7 @@
     <app-product-list [inCart]="true"></app-product-list>
 
     <p class="text-right mt-3">
-      <strong>Total: ${{ total.toFixed(2) }}</strong>
+      <strong>Total: {{ totalCartPrice.toFixed(2) }} €</strong>
     </p>
   </form>
 </div>
@@ -132,3 +132,8 @@
     Submit
   </button>
 </div>
+
+<ng-template #successCheckoutTpl> Successful checkout!</ng-template>
+<ng-template #failedCheckoutTpl> Failed checkout!</ng-template>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

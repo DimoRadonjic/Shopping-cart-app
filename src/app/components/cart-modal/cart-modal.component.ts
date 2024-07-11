@@ -54,6 +54,7 @@ export class CartModalComponent implements OnInit {
   }
 
   openCheckoutModal(): void {
+    this.activeModal.close(CartModalComponent);
     this.modalService.open(CheckoutComponent);
   }
 
