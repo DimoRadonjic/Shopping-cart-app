@@ -1,11 +1,15 @@
 <div class="stock-operations">
   <button (click)="addToCart()" class="btn btn-primary">Add to Cart</button>
-  <button (click)="removeFromCart()" class="btn btn-danger">
+  <button
+    *ngIf="isProductInCart"
+    (click)="removeFromCart()"
+    class="btn btn-danger"
+  >
     Remove from Cart
   </button>
 </div>
 <ng-template #successTpl> Product added to cart!</ng-template>
 
-<ng-template #dangerTpl> Product removed from cart! </ng-template>
+<ng-template #failedTpl> Product removed from cart! </ng-template>
 
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

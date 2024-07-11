@@ -8,7 +8,7 @@
 
         <div class="product-desc">
           <div class="title">Title: {{ product.title }}</div>
-          <div class="price">Price: {{ product.price }} €</div>
+          <div class="price">Price: {{ product.price | currencyFormat }}</div>
           <div class="stock">Stock: {{ product.stock }}</div>
         </div>
       </div>
@@ -23,7 +23,7 @@
 
         <div class="product-desc">
           <div class="title">Title: {{ product.title }}</div>
-          <div class="price">Price: {{ product.price }} €</div>
+          <div class="price">Price: {{ product.price | currencyFormat }}</div>
           <div class="stock">Quantity: {{ quantity }}</div>
         </div>
       </div>

@@ -32,6 +32,7 @@ import { filterReducer } from './store/reducers/filter.reducer';
 import { GlobalProductService } from './global-product.service';
 import { productReducer } from './store/reducers/product.reducer';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CurrencyFormatPipe } from './pipes';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ListOptionsComponent,
     CheckoutComponent,
     StockOperationsButtonsComponent,
+    CurrencyFormatPipe,
   ],
   bootstrap: [AppComponent],
   imports: [

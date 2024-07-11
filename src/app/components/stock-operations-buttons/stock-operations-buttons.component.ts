@@ -1,6 +1,6 @@
 import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { Product } from 'src/app/interfaces/interfaces';
-import { ProductListService } from 'src/app/services';
+import { CartService } from 'src/app/services/cart.service';
 import { ToastService } from 'src/app/services/toast-service';
 
 @Component({
@@ -17,22 +17,31 @@ export class StockOperationsButtonsComponent {
   @ViewChild('failedCheckoutTpl', { static: true })
   failedCheckoutTpl!: TemplateRef<any>;
 
+  isCartEmpty = this.cartService.isEmpty();
+
+  isProductInCart = false;
+
   constructor(
-    private productListService: ProductListService,
+    private cartService: CartService,
     private toastService: ToastService
   ) {}
 
+  ngOnInit(): void {
+    this.isProductInCart = this.cartService.isInCart(this.product.id);
+  }
+
   addToCart() {
     if (this.product) {
-      this.productListService.addInCartProducts(this.product);
+      this.cartService.addInCartProducts(this.product);
+      this.isProductInCart = this.cartService.isInCart(this.product.id);
       this.showSuccess(this.successTpl);
     }
-    console.log('Item added to cart');
   }
 
   removeFromCart() {
-    if (this.product.id) {
-      this.productListService.removeFromCart(this.product);
+    if (this.product.id && !this.isCartEmpty) {
+      this.cartService.removeFromCart(this.product);
+      this.isProductInCart = this.cartService.isInCart(this.product.id);
       this.showDanger(this.dangerTpl);
     }
   }

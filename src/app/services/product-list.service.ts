@@ -121,25 +121,4 @@ export class ProductListService {
     this.currentPageSubject.next(page);
     this.store.dispatch(setCurrentPage({ page }));
   }
-
-  //Cart
-
-  addInCartProducts(inCartProduct: Product) {
-    this.currentInCartProducts.next([
-      ...this.currentInCartProducts.value,
-      inCartProduct,
-    ]);
-    this.store.dispatch(addInCartProducts({ inCartProduct, quantity: 1 }));
-  }
-
-  clearCart() {
-    this.currentInCartProducts.next([]);
-    this.store.dispatch(clearCart());
-  }
-
-  removeFromCart(productToRemove: Product) {
-    this.store.dispatch(
-      removeFromCartProducts({ toRemoveProductId: productToRemove.id })
-    );
-  }
 }
