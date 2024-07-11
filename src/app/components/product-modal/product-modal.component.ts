@@ -1,7 +1,8 @@
-// src/app/product-modal/product-modal.component.ts
 import { Component, Input, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ProductService } from 'src/app/services/product-service';
+import { Product } from 'src/app/interfaces/interfaces';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-modal',
@@ -10,26 +11,26 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ProductModalComponent implements OnInit {
   @Input() productId!: number;
-  product: any;
+  product: Product = {} as Product;
   loading = true;
+  private subscriptions: Subscription[] = [];
 
-  constructor(private http: HttpClient, public activeModal: NgbActiveModal) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    private productService: ProductService
+  ) {}
 
   ngOnInit() {
-    this.fetchProductDetails();
-  }
-
-  fetchProductDetails() {
-    this.loading = true;
-    this.http.get(`https://dummyjson.com/products/${this.productId}`).subscribe(
-      (data: any) => {
-        this.product = data;
-        this.loading = false;
-      },
-      (error) => {
-        console.error('Error fetching product details:', error);
-        this.loading = false;
-      }
+    this.subscriptions.push(
+      this.productService.loading$.subscribe(
+        (loading) => (this.loading = loading)
+      ),
+      this.productService.product$.subscribe((product) => {
+        if (product !== null) {
+          this.product = product;
+        }
+      })
     );
+    this.productService.fetchProductDetails(this.productId);
   }
 }
