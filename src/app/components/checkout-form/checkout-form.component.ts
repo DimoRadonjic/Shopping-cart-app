@@ -30,6 +30,8 @@ export class CheckoutComponent implements OnInit {
   successCheckoutTpl!: TemplateRef<any>;
   @ViewChild('failedCheckoutTpl', { static: true })
   failedCheckoutTpl!: TemplateRef<any>;
+  @ViewChild('emptyCartTpl', { static: true })
+  emptyCartTpl!: TemplateRef<any>;
 
   private destroy$ = new Subject<void>();
 
@@ -77,6 +79,10 @@ export class CheckoutComponent implements OnInit {
 
   onSubmit() {
     if (this.checkoutForm.valid) {
+      if (this.inCartProducts.length === 0 || this.totalCartProducts === 0) {
+        this.showError(this.emptyCartTpl);
+        return;
+      }
       const payload = {
         ...this.checkoutForm.value,
         items: this.inCartProducts,
@@ -103,6 +109,14 @@ export class CheckoutComponent implements OnInit {
     this.toastService.show({
       template,
       classname: 'bg-success text-light',
+      delay: 1500,
+    });
+  }
+
+  showError(template: TemplateRef<any>) {
+    this.toastService.show({
+      template,
+      classname: 'bg-danger text-light',
       delay: 1500,
     });
   }

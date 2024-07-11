@@ -126,7 +126,10 @@
   <button
     type="button"
     class="btn btn-primary"
-    [disabled]="!checkoutForm.valid"
+    [disabled]="
+      (!checkoutForm.valid && inCartProducts.length === 0) ||
+      totalCartProducts === 0
+    "
     (click)="onSubmit()"
   >
     Submit
@@ -135,5 +138,9 @@
 
 <ng-template #successCheckoutTpl> Successful checkout!</ng-template>
 <ng-template #failedCheckoutTpl> Failed checkout!</ng-template>
+
+<ng-template #emptyCartTpl>
+  Your cart is empty. Please add items before checking out.
+</ng-template>
 
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
