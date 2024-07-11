@@ -37,7 +37,7 @@ export class StockOperationsButtonsComponent {
     this.toastService.show({
       template,
       classname: 'bg-success text-light',
-      delay: 15000,
+      delay: 1500,
     });
   }
 

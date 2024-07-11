@@ -8,6 +8,7 @@ import { CartModalComponent } from '../cart-modal/cart-modal.component';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Product } from 'src/app/interfaces/interfaces';
+import { ToastService } from 'src/app/services';
 
 @Component({
   selector: 'app-cart',
@@ -47,7 +48,8 @@ export class CartComponent implements OnInit {
         totalCartPrice: number;
       };
     }>,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastService: ToastService
   ) {
     this.cart$ = this.store.select('products');
   }
@@ -64,6 +66,7 @@ export class CartComponent implements OnInit {
   }
 
   openCartModal() {
+    this.toastService.clear();
     const modalRef = this.modalService.open(CartModalComponent);
     modalRef.componentInstance.cartOpen = !this.cartOpen;
   }
