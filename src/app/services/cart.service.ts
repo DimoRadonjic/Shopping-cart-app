@@ -100,7 +100,6 @@ export class CartService {
 
     if (add) {
       if (found) {
-        console.log('found', found);
         updatedCart = [
           ...this.inCart,
           { product: newProduct, quantity: found.quantity + 1 },
