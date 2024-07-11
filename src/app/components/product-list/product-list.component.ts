@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Product } from 'src/app/interfaces/interfaces';
+import { ProductListService } from 'src/app/services';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -44,7 +45,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
         totalProducts: number;
       };
     }>,
-    config: NgbPaginationConfig
+    config: NgbPaginationConfig,
+    private productListService: ProductListService
   ) {
     this.filter$ = this.store.select('filter');
     this.productStore$ = this.store.select('products');
@@ -75,7 +77,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(page: number) {
-    this.currentPage = page;
+    this.productListService.setCurrentPage(page);
     this.fetchProductsFromStore();
   }
 }
