@@ -71,7 +71,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     } else {
       this.productStore$.pipe(takeUntil(this.destroy$)).subscribe((state) => {
         this.displayedProducts = state.inCart;
-        this.totalItems = state.inCart.length;
+        this.totalItems = state.inCart.length - 1;
       });
     }
   }

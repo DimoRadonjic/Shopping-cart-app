@@ -31,12 +31,10 @@ export class ProductListService {
   private searchTextSubject = new BehaviorSubject<string>('');
   private pageSizeSubject = new BehaviorSubject<number>(5);
   private currentPageSubject = new BehaviorSubject<number>(1);
-  private currentInCartProducts = new BehaviorSubject<Product[]>([]);
 
   searchText$ = this.searchTextSubject.asObservable();
   pageSize$ = this.pageSizeSubject.asObservable();
   currentPage$ = this.currentPageSubject.asObservable();
-  currentInCartProducts$ = this.currentInCartProducts.asObservable();
 
   products$!: Observable<Product[]>;
   totalProducts$!: Observable<number>;

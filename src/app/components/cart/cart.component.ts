@@ -18,9 +18,6 @@ import { ToastService } from 'src/app/services';
 export class CartComponent implements OnInit {
   cartOpen: boolean = false;
 
-  totalCartProducts: number = 0;
-  totalCartPrice: number = 0;
-
   cart$: Observable<{
     products: Product[];
     displayedProducts: Product[];
@@ -29,7 +26,8 @@ export class CartComponent implements OnInit {
     totalCartPrice: number;
     totalCartProducts: number;
   }>;
-
+  totalCartProducts: number = 0;
+  totalCartPrice: number = 0;
   private destroy$ = new Subject<void>();
 
   constructor(

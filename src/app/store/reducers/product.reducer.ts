@@ -42,14 +42,18 @@ export const productReducer = createReducer(
         )
       : [...state.inCart, { product: inCartProduct, quantity: quantity }];
 
+    const updatedProducts = state.products
+      .map((product) =>
+        product.id === inCartProduct.id
+          ? { ...product, stock: Math.max(0, product.stock - quantity) }
+          : product
+      )
+      .filter((product) => product.stock > 0);
+
     return {
       ...state,
       inCart: updatedInCart,
-      products: state.products.map((product) =>
-        product.id === inCartProduct.id
-          ? { ...product, stock: product.stock - quantity }
-          : product
-      ),
+      products: updatedProducts,
       totalCartProducts: state.totalCartProducts + quantity,
       totalCartPrice: updatedInCart.reduce(
         (acc, item) => acc + item.product.price * item.quantity,
