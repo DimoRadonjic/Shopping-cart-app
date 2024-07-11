@@ -5,10 +5,11 @@
       placeholder="Search product by title"
       [ngModel]="searchText"
       (ngModelChange)="applyFilter($event)"
+      class="searchBar"
     />
   </div>
-  <div class="row mb-3">
-    <div class="col">
+  <div class="changeSize">
+    <div class="changeSizeSelect">
       <label for="pageSize">Results per page:</label>
       <select
         id="pageSize"

@@ -1,0 +1,32 @@
+body {
+  width: 100%;
+}
+
+.main-container {
+  display: grid;
+  min-width: 100%;
+  grid-template-columns: 1fr;
+  grid-auto-rows: max-content;
+  place-content: center;
+  place-items: center;
+}
+
+.cart-options {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  margin-right: 48px;
+
+  .options {
+    grid-column: 2 / 2;
+  }
+
+  .cart-element {
+    grid-column: 3 / 3;
+    width: 100%;
+    display: flex;
+    place-content: end;
+    place-items: center;
+  }
+}

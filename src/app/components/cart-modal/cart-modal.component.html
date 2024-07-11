@@ -31,7 +31,7 @@
   <div>Total price : {{ totalCartPrice }} €</div>
   <div class="stock-operations">
     <button class="add" (click)="openCheckoutModal()">Checkout</button>
-    <button class="remove">Cancel</button>
+    <button class="remove" (click)="cancelOrder()">Cancel Order</button>
   </div>
   <button
     type="button"

@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CheckoutComponent } from 'src/app/components/checkout-form/checkout-form.component';
 import { Product } from 'src/app/interfaces/interfaces';
+import { clearCart } from 'src/app/store/actions/product.actions';
 
 @Component({
   selector: 'app-cart-modal',
@@ -56,6 +57,11 @@ export class CartModalComponent implements OnInit {
   openCheckoutModal(): void {
     this.activeModal.close(CartModalComponent);
     this.modalService.open(CheckoutComponent);
+  }
+
+  cancelOrder(): void {
+    this.activeModal.dismiss('cancel');
+    this.store.dispatch(clearCart());
   }
 
   fetchProductsFromStore() {
