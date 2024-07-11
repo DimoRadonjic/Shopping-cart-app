@@ -1,0 +1,17 @@
+.modal-header {
+  width: 100%;
+  display: flex;
+  place-content: space-between;
+  .close {
+    border: none;
+    font-size: 40px;
+    height: fit-content;
+    width: fit-content;
+  }
+}
+
+.checkout-list {
+  .stock-operations {
+    column-gap: 4px;
+  }
+}

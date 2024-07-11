@@ -18,6 +18,7 @@
     input {
       width: 100%;
       max-width: 350px;
+      padding-left: 12px;
     }
   }
 
@@ -30,11 +31,20 @@
 
   .searchBar {
     width: 100%;
+    background-color: transparent;
+    border: 2px solid rgb(171, 171, 171);
+    border-radius: 6px;
   }
-  .changeSizeSelect {
+
+  .changeSizeSelect-container {
     display: flex;
     place-content: center;
     place-items: center;
     column-gap: 20px;
+    select {
+      background-color: transparent;
+      border: 2px solid rgb(171, 171, 171);
+      border-radius: 6px;
+    }
   }
 }

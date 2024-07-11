@@ -108,7 +108,7 @@
     </div>
 
     <h5>Selected Items</h5>
-    <app-product-list [inCart]="true"></app-product-list>
+    <app-product-list [inCart]="true" class="checkout-list"></app-product-list>
 
     <p class="text-right mt-3">
       <strong>Total: {{ totalCartPrice.toFixed(2) }} €</strong>
@@ -127,8 +127,8 @@
     type="button"
     class="btn btn-primary"
     [disabled]="
-      (!checkoutForm.valid && inCartProducts.length === 0) ||
-      totalCartProducts === 0
+      !checkoutForm.valid &&
+      (inCartProducts.length === 0 || totalCartProducts === 0)
     "
     (click)="onSubmit()"
   >

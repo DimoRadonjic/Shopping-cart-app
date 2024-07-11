@@ -20,9 +20,11 @@
   </div>
 </div>
 <div class="modal-footer">
-  <app-stock-operations-buttons
-    [product]="product"
-  ></app-stock-operations-buttons>
+  <div class="stock-operations">
+    <app-stock-operations-buttons
+      [product]="product"
+    ></app-stock-operations-buttons>
+  </div>
   <button
     type="button"
     class="btn btn-secondary"

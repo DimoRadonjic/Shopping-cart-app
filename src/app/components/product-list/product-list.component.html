@@ -2,10 +2,12 @@
   <div class="product-container" *ngFor="let product of displayedProducts">
     <app-product [product]="product" [inCart]="false"></app-product>
     <div class="buttons-container">
-      <app-stock-operations-buttons
-        class="buttons"
-        [product]="product"
-      ></app-stock-operations-buttons>
+      <div class="stock-operations">
+        <app-stock-operations-buttons
+          class="buttons"
+          [product]="product"
+        ></app-stock-operations-buttons>
+      </div>
     </div>
   </div>
 

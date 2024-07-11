@@ -1,0 +1,27 @@
+.modal-header {
+  width: 100%;
+  display: flex;
+  place-content: space-between;
+  .close {
+    border: none;
+    font-size: 40px;
+    height: fit-content;
+    width: fit-content;
+  }
+}
+.modal-footer {
+  width: 100%;
+  display: flex;
+  place-content: space-between;
+
+  .stock-operations {
+    display: flex;
+    column-gap: 12px;
+  }
+
+  .checkout {
+    background-color: transparent;
+    border: 2px solid rgb(171, 171, 171);
+    border-radius: 6px;
+  }
+}

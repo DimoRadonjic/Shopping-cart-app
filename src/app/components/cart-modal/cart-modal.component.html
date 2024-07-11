@@ -30,8 +30,10 @@
 <div class="modal-footer">
   <div>Total price : {{ totalCartPrice | currencyFormat }}</div>
   <div class="stock-operations">
-    <button class="add" (click)="openCheckoutModal()">Checkout</button>
-    <button class="remove" (click)="cancelOrder()">Cancel Order</button>
+    <button class="checkout" (click)="openCheckoutModal()">Checkout</button>
+    <button class="remove btn btn-secondary" (click)="cancelOrder()">
+      Cancel Order
+    </button>
   </div>
   <button
     type="button"

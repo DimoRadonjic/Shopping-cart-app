@@ -2,16 +2,17 @@
   <div class="container">
     <input
       type="text"
-      placeholder="Search product by title"
+      placeholder="Search for product"
       [ngModel]="searchText"
       (ngModelChange)="applyFilter($event)"
       class="searchBar"
     />
   </div>
   <div class="changeSize">
-    <div class="changeSizeSelect">
+    <div class="changeSizeSelect-container">
       <label for="pageSize">Results per page:</label>
       <select
+        class="pageSizeSelect"
         id="pageSize"
         [ngModel]="pageSize"
         (ngModelChange)="onPageSizeChange($event)"
