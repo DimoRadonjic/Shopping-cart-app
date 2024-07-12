@@ -6,7 +6,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { Product } from 'src/app/interfaces/interfaces';
 import { Store } from '@ngrx/store';
 import { clearCart } from 'src/app/store/actions/product.actions';
-import { ToastService } from 'src/app/services';
+import { CheckoutService, ToastService } from 'src/app/services';
 
 @Component({
   selector: 'app-checkout',
@@ -54,7 +54,8 @@ export class CheckoutComponent implements OnInit {
         totalCartPrice: number;
       };
     }>,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private checkoutService: CheckoutService
   ) {
     this.cart$ = this.store.select('products');
   }
@@ -88,7 +89,7 @@ export class CheckoutComponent implements OnInit {
         items: this.inCartProducts,
       };
 
-      this.http.post('https://dummyjson.com/http/200', payload).subscribe(
+      this.checkoutService.submitCheckout(payload).subscribe(
         (response) => {
           console.log('Success:', response);
           this.activeModal.close(response);
@@ -97,7 +98,7 @@ export class CheckoutComponent implements OnInit {
         },
         (error) => {
           console.error('Error:', error);
-          this.showSuccess(this.failedCheckoutTpl);
+          this.showError(this.failedCheckoutTpl);
         }
       );
     } else {
