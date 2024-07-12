@@ -6,7 +6,7 @@
 - Angular CLI (v12.x or later)
 
 ## Installation
-1. Clone the repository: ``` git clone https://github.com/DimoRadonjic/Shopping-cart-app.git ```
+1. Clone the repository: ``` git clone https://github.com/DimoRadonjic/shopping-cart-app.git ```
 2. Navigate to the project directory: ``` cd shopping-cart-app ```
 3. Install dependencies: ``` npm install ```
 
