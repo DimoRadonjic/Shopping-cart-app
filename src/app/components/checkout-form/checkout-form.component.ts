@@ -1,12 +1,11 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Product } from 'src/app/interfaces/interfaces';
 import { Store } from '@ngrx/store';
-import { clearCart } from 'src/app/store/actions/product.actions';
 import { CheckoutService, ToastService } from 'src/app/services';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -37,7 +36,6 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
     public activeModal: NgbActiveModal,
     private store: Store<{
       filter: {
@@ -55,7 +53,8 @@ export class CheckoutComponent implements OnInit {
       };
     }>,
     private toastService: ToastService,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private cartService: CartService
   ) {
     this.cart$ = this.store.select('products');
   }
@@ -93,7 +92,7 @@ export class CheckoutComponent implements OnInit {
         (response) => {
           console.log('Success:', response);
           this.activeModal.close(response);
-          this.store.dispatch(clearCart());
+          this.cartService.clearCart();
           this.showSuccess(this.successCheckoutTpl);
         },
         (error) => {

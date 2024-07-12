@@ -1,4 +1,5 @@
 import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Product } from 'src/app/interfaces/interfaces';
 import { CartService } from 'src/app/services/cart.service';
 import { ToastService } from 'src/app/services/toast-service';
@@ -20,6 +21,7 @@ export class StockOperationsButtonsComponent {
   isCartEmpty = this.cartService.isEmpty();
 
   isProductInCart = false;
+  private cartSubscription!: Subscription;
 
   constructor(
     private cartService: CartService,
@@ -27,7 +29,18 @@ export class StockOperationsButtonsComponent {
   ) {}
 
   ngOnInit(): void {
-    this.isProductInCart = this.cartService.isInCart(this.product.id);
+    this.cartSubscription = this.cartService.cart$.subscribe((cart) => {
+      this.isProductInCart = cart.inCart.some(
+        (item) => item.product.id === this.product.id
+      );
+      this.isCartEmpty = cart.inCart.length === 0;
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.cartSubscription) {
+      this.cartSubscription.unsubscribe();
+    }
   }
 
   addToCart() {

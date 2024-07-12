@@ -63,17 +63,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   fetchProductsFromStore() {
-    if (!this.inCart) {
-      this.productStore$.pipe(takeUntil(this.destroy$)).subscribe((state) => {
+    this.productStore$.pipe(takeUntil(this.destroy$)).subscribe((state) => {
+      if (!this.inCart) {
         this.displayedProducts = state.products;
         this.totalItems = state.totalProducts;
-      });
-    } else {
-      this.productStore$.pipe(takeUntil(this.destroy$)).subscribe((state) => {
+      } else {
         this.displayedProducts = state.inCart;
         this.totalItems = state.inCart.length - 1;
-      });
-    }
+      }
+    });
   }
 
   onPageChange(page: number) {
