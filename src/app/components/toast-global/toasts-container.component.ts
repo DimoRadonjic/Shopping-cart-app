@@ -11,9 +11,9 @@ import { ToastService } from '../../services/toast-service';
   template: `
     @for (toast of toastService.toasts; track toast) {
     <ngb-toast
-      [class]="toast.classname"
+      [class]="toastService.getClassname(toast.type)"
       [autohide]="true"
-      [delay]="toast.delay || 5000"
+      [delay]="toastService.getDelay(toast)"
       (hidden)="toastService.remove(toast)"
     >
       <ng-template [ngTemplateOutlet]="toast.template"></ng-template>

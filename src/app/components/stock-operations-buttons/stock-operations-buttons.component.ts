@@ -62,7 +62,7 @@ export class StockOperationsButtonsComponent {
   showSuccess(template: TemplateRef<any>) {
     this.toastService.show({
       template,
-      classname: 'bg-success text-light',
+      type: 'success',
       delay: 1500,
     });
   }
@@ -70,7 +70,7 @@ export class StockOperationsButtonsComponent {
   showDanger(template: TemplateRef<any>) {
     this.toastService.show({
       template,
-      classname: 'bg-danger text-light',
+      type: 'danger',
       delay: 1500,
     });
   }

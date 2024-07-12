@@ -81,7 +81,6 @@ export class ProductListService {
     this.products$ = response$.pipe(map((response) => response.products));
     this.totalProducts$ = response$.pipe(map((response) => response.total));
 
-    // Combine both subscriptions into one
     response$.subscribe((response) => {
       this.store.dispatch(setProducts({ productsArr: response.products }));
       this.store.dispatch(

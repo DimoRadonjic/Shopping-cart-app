@@ -108,6 +108,7 @@ export class CartService {
 
     this.store.dispatch(setProducts({ productsArr: finalArr }));
   }
+
   removeProducts(newProduct: Product) {
     const updatedProducts = this.products.map((product) =>
       product.id === newProduct.id

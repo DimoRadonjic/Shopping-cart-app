@@ -17,14 +17,14 @@ export class NgbdToastGlobal implements OnDestroy {
   }
 
   showStandard(template: TemplateRef<any>) {
-    this.toastService.show({ template });
+    this.toastService.show({ template, type: 'info' });
   }
 
   showSuccess(template: TemplateRef<any>) {
-    this.toastService.show({
-      template,
-      classname: 'bg-success text-light',
-      delay: 10000,
-    });
+    this.toastService.show({ template, type: 'success' });
+  }
+
+  showDanger(template: TemplateRef<any>) {
+    this.toastService.show({ template, type: 'danger' });
   }
 }

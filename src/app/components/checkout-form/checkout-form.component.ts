@@ -108,16 +108,14 @@ export class CheckoutComponent implements OnInit {
   showSuccess(template: TemplateRef<any>) {
     this.toastService.show({
       template,
-      classname: 'bg-success text-light',
-      delay: 1500,
+      type: 'success',
     });
   }
 
   showError(template: TemplateRef<any>) {
     this.toastService.show({
       template,
-      classname: 'bg-danger text-light',
-      delay: 1500,
+      type: 'danger',
     });
   }
 }

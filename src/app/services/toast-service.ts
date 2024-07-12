@@ -1,8 +1,10 @@
 import { Injectable, TemplateRef } from '@angular/core';
 
+export type ToastType = 'success' | 'danger' | 'info';
+
 export interface Toast {
   template: TemplateRef<any>;
-  classname?: string;
+  type: ToastType;
   delay?: number;
 }
 
@@ -20,5 +22,33 @@ export class ToastService {
 
   clear() {
     this.toasts.splice(0, this.toasts.length);
+  }
+
+  getClassname(type: ToastType): string {
+    switch (type) {
+      case 'success':
+        return 'bg-success text-light';
+      case 'danger':
+        return 'bg-danger text-light';
+      case 'info':
+      default:
+        return 'bg-info text-light';
+    }
+  }
+
+  getDelay(toast: Toast): number {
+    if (toast.delay !== undefined) {
+      return toast.delay;
+    }
+
+    switch (toast.type) {
+      case 'success':
+        return 10000;
+      case 'danger':
+        return 15000;
+      case 'info':
+      default:
+        return 5000;
+    }
   }
 }
