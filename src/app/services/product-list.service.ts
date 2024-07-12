@@ -6,6 +6,7 @@ import {
   switchMap,
   debounceTime,
   distinctUntilChanged,
+  share,
 } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Product } from 'src/app/interfaces/interfaces';
@@ -73,18 +74,19 @@ export class ProductListService {
     const response$ = filter$.pipe(
       switchMap(([searchText, pageSize, currentPage]) =>
         this.fetchProducts(searchText, pageSize, currentPage)
-      )
+      ),
+      share()
     );
 
     this.products$ = response$.pipe(map((response) => response.products));
     this.totalProducts$ = response$.pipe(map((response) => response.total));
 
-    this.products$.subscribe((products) => {
-      this.store.dispatch(setProducts({ productsArr: products }));
-    });
-
-    this.totalProducts$.subscribe((total) => {
-      this.store.dispatch(setTotalProducts({ totalProductsNum: total }));
+    // Combine both subscriptions into one
+    response$.subscribe((response) => {
+      this.store.dispatch(setProducts({ productsArr: response.products }));
+      this.store.dispatch(
+        setTotalProducts({ totalProductsNum: response.total })
+      );
     });
   }
 
