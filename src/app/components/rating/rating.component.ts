@@ -1,4 +1,3 @@
-// src/app/rating/rating.component.ts
 import { Component, Input } from '@angular/core';
 
 @Component({

@@ -1,4 +1,3 @@
-// src/app/product-modal/product-modal.component.ts
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';

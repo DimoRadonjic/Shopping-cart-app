@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { NgbModal, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
-import { ProductModalComponent } from 'src/app/components/product-modal/product-modal.component';
+import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

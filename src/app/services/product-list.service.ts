@@ -16,9 +16,6 @@ import {
   setSearchText,
 } from '../store/actions/filter.actions';
 import {
-  addInCartProducts,
-  clearCart,
-  removeFromCartProducts,
   setProducts,
   setTotalProducts,
 } from '../store/actions/product.actions';

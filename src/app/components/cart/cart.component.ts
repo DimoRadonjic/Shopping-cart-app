@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  NgbActiveModal,
-  NgbModal,
-  NgbPaginationConfig,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CartModalComponent } from '../cart-modal/cart-modal.component';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';

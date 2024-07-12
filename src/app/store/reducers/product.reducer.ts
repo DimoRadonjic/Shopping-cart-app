@@ -4,7 +4,6 @@ import {
   setTotalProducts,
   addInCartProducts,
   removeFromCartProducts,
-  totalCartProducts,
   clearCart,
 } from '../actions/product.actions';
 import { Product } from 'src/app/interfaces/interfaces';
