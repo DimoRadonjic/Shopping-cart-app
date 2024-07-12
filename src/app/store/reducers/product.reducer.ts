@@ -53,7 +53,7 @@ export const productReducer = createReducer(
     return {
       ...state,
       inCart: updatedInCart,
-      products: updatedProducts,
+      // products: updatedProducts,
       totalCartProducts: state.totalCartProducts + quantity,
       totalCartPrice: updatedInCart.reduce(
         (acc, item) => acc + item.product.price * item.quantity,
@@ -95,7 +95,7 @@ export const productReducer = createReducer(
     return {
       ...state,
       inCart: updatedInCart,
-      products: updatedProducts,
+      // products: updatedProducts,
       totalCartProducts:
         state.totalCartProducts > 0 ? state.totalCartProducts - 1 : 0,
       totalCartPrice: updatedInCart.reduce(

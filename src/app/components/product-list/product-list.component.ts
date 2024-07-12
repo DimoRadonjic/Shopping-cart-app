@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { NgbModal, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ProductModalComponent } from 'src/app/components/product-modal/product-modal.component';
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Product } from 'src/app/interfaces/interfaces';
 import { ProductListService } from 'src/app/services';
@@ -30,6 +30,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   pageSize = 5;
   totalItems = 0;
   private destroy$ = new Subject<void>();
+
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private store: Store<{
@@ -72,6 +74,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
         this.totalItems = state.inCart.length - 1;
       }
     });
+  }
+
+  paginate(array: Product[], page: number, pageSize: number): Product[] {
+    return array.slice((page - 1) * pageSize, page * pageSize);
   }
 
   onPageChange(page: number) {

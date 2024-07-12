@@ -25,6 +25,7 @@ export class CartService {
   totalCartPrice: number = 0;
   products: Product[] = [];
   inCart: { product: Product; quantity: number }[] = [];
+  productsRemovedFromList: number[] = [];
 
   private destroy$ = new Subject<void>();
 
@@ -54,8 +55,8 @@ export class CartService {
   }
 
   addInCartProducts(inCartProduct: Product) {
-    this.updateCurrentInCartProducts(true, inCartProduct);
-    this.updateProducts(true, inCartProduct);
+    this.addCartProducts(inCartProduct);
+    this.removeProducts(inCartProduct);
     this.store.dispatch(addInCartProducts({ inCartProduct, quantity: 1 }));
   }
 
@@ -63,72 +64,110 @@ export class CartService {
     this.store.dispatch(clearCart());
   }
 
-  updateProducts(add: boolean, newProduct: Product) {
-    const productAvailable = this.products.find(
-      (product) => product.id === newProduct.id && product.stock > 0
+  ifAvailableInProducts(productArg: Product) {
+    return this.products.find(
+      (product) => product.id === productArg.id && product.stock > 0
     )
       ? true
       : false;
+  }
 
-    let updatedProducts: Product[] = [];
+  ifAvailableInCart(
+    productArg: Product
+  ): { product: Product; quantity: number } | undefined {
+    return this.inCart.find(
+      ({ product, quantity }) => product.id === productArg.id && quantity > 0
+    );
+  }
 
-    if (add) {
-      if (productAvailable) {
-        updatedProducts = this.products.map((product) =>
-          product.id === newProduct.id
-            ? { ...product, stock: product.stock - 1 }
-            : product
-        );
-      } else {
-        updatedProducts = this.products.filter((product) => product.stock > 0);
-      }
+  addProducts(newProduct: Product) {
+    let updatedProducts: Product[] = [...this.products];
+
+    const existingProductIndex = updatedProducts.findIndex(
+      (product) => product.id === newProduct.id
+    );
+
+    if (existingProductIndex !== -1) {
+      updatedProducts[existingProductIndex] = {
+        ...updatedProducts[existingProductIndex],
+        stock: Math.max(0, updatedProducts[existingProductIndex].stock + 1),
+      };
     } else {
-      updatedProducts = this.products.map((product) =>
-        product.id === newProduct.id
-          ? { ...product, stock: product.stock + 1 }
-          : product
+      const newProductIndex = updatedProducts.findIndex(
+        (product) => product.id > newProduct.id
       );
+
+      if (newProductIndex !== -1) {
+        updatedProducts.splice(newProductIndex, 0, { ...newProduct, stock: 1 });
+      } else {
+        updatedProducts.push({ ...newProduct, stock: 1 });
+      }
+    }
+
+    const finalArr = updatedProducts.filter((product) => product.stock > 0);
+
+    this.store.dispatch(setProducts({ productsArr: finalArr }));
+  }
+  removeProducts(newProduct: Product) {
+    const updatedProducts = this.products.map((product) =>
+      product.id === newProduct.id
+        ? { ...product, stock: Math.max(0, product.stock - 1) }
+        : product
+    );
+
+    const productsIndex = updatedProducts.findIndex(
+      (product) => product.id === newProduct.id
+    );
+
+    if (updatedProducts[productsIndex].stock === 0) {
+      this.productsRemovedFromList.push(productsIndex);
+      console.log(
+        'productsRemovedFromList added',
+        this.productsRemovedFromList
+      );
+    }
+    const finalArr = updatedProducts.filter((product) => product.stock > 0);
+    this.store.dispatch(setProducts({ productsArr: finalArr }));
+  }
+
+  addCartProducts(newProduct: Product) {
+    let updatedCart: { product: Product; quantity: number }[] = [];
+    let found = this.ifAvailableInCart(newProduct);
+
+    if (found) {
+      updatedCart = [
+        ...this.inCart,
+        { product: newProduct, quantity: found.quantity + 1 },
+      ];
+    } else {
+      updatedCart = [...this.inCart, { product: newProduct, quantity: 1 }];
     }
   }
 
-  updateCurrentInCartProducts(add: boolean, newProduct: Product): void {
+  removeCartProducts(newProduct: Product) {
     let updatedCart: { product: Product; quantity: number }[] = [];
+    let found = this.ifAvailableInCart(newProduct);
 
-    const found = this.inCart.find(
-      ({ product }) => product.id === newProduct.id
-    );
-
-    if (add) {
-      if (found) {
-        updatedCart = [
-          ...this.inCart,
-          { product: newProduct, quantity: found.quantity + 1 },
-        ];
-      } else {
-        updatedCart = [...this.inCart, { product: newProduct, quantity: 1 }];
-      }
-    } else {
-      if (found) {
-        updatedCart = [
-          ...this.inCart,
-          { product: newProduct, quantity: found.quantity - 1 },
-        ];
-        if (found.quantity === 0) {
-          updatedCart = this.inCart.filter(
-            (item) => item.product.id !== newProduct.id
-          );
-        }
-      } else {
+    if (found) {
+      updatedCart = [
+        ...this.inCart,
+        { product: newProduct, quantity: found.quantity - 1 },
+      ];
+      if (found.quantity === 0) {
         updatedCart = this.inCart.filter(
           (item) => item.product.id !== newProduct.id
         );
       }
+    } else {
+      updatedCart = this.inCart.filter(
+        (item) => item.product.id !== newProduct.id
+      );
     }
   }
 
   removeFromCart(productToRemove: Product) {
-    this.updateCurrentInCartProducts(false, productToRemove);
-    this.updateProducts(false, productToRemove);
+    this.removeCartProducts(productToRemove);
+    this.addProducts(productToRemove);
     this.store.dispatch(
       removeFromCartProducts({ toRemoveProductId: productToRemove.id })
     );
@@ -144,3 +183,66 @@ export class CartService {
       : false;
   }
 }
+
+// updateProducts(add: boolean, newProduct: Product) {
+//   const productAvailable = this.products.find(
+//     (product) => product.id === newProduct.id && product.stock > 0
+//   )
+//     ? true
+//     : false;
+
+//   let updatedProducts: Product[] = [];
+
+//   if (add) {
+//     if (productAvailable) {
+//       updatedProducts = this.products.map((product) =>
+//         product.id === newProduct.id
+//           ? { ...product, stock: product.stock - 1 }
+//           : product
+//       );
+//     } else {
+//       updatedProducts = this.products.filter((product) => product.stock > 0);
+//     }
+//   } else {
+//     updatedProducts = this.products.map((product) =>
+//       product.id === newProduct.id
+//         ? { ...product, stock: product.stock + 1 }
+//         : product
+//     );
+//   }
+// }
+
+// updateCurrentInCartProducts(add: boolean, newProduct: Product): void {
+//   let updatedCart: { product: Product; quantity: number }[] = [];
+
+//   const found = this.inCart.find(
+//     ({ product }) => product.id === newProduct.id
+//   );
+
+//   if (add) {
+//     if (found) {
+//       updatedCart = [
+//         ...this.inCart,
+//         { product: newProduct, quantity: found.quantity + 1 },
+//       ];
+//     } else {
+//       updatedCart = [...this.inCart, { product: newProduct, quantity: 1 }];
+//     }
+//   } else {
+//     if (found) {
+//       updatedCart = [
+//         ...this.inCart,
+//         { product: newProduct, quantity: found.quantity - 1 },
+//       ];
+//       if (found.quantity === 0) {
+//         updatedCart = this.inCart.filter(
+//           (item) => item.product.id !== newProduct.id
+//         );
+//       }
+//     } else {
+//       updatedCart = this.inCart.filter(
+//         (item) => item.product.id !== newProduct.id
+//       );
+//     }
+//   }
+// }
