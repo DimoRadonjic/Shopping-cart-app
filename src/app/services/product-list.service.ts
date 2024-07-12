@@ -19,6 +19,8 @@ import {
   setTotalProducts,
 } from '../store/actions/product.actions';
 import { ProductArray } from '../types/types';
+import { Cart, Product } from '../interfaces/interfaces';
+import { CartService } from './cart.service';
 
 @Injectable({
   providedIn: 'root',
@@ -45,12 +47,9 @@ export class ProductListService {
         pageSize: number;
         currentPage: number;
       };
-      products: {
-        products: ProductArray;
-        displayedProducts: ProductArray;
-        totalProducts: number;
-      };
-    }>
+      products: Cart;
+    }>,
+    private cartService: CartService
   ) {
     this.initializeDataStreams();
   }
@@ -98,9 +97,32 @@ export class ProductListService {
       url = `${this.apiUrl}/search?q=${searchText}&limit=${pageSize}&skip=${skip}`;
     }
 
-    return this.http.get<any>(url);
-  }
+    let result: ProductArray = [];
+    return this.http.get<any>(url).pipe(
+      map((response) => {
+        this.cartService.cart$.subscribe((cart) => {
+          if (cart.totalCartProducts > 0) {
+            const filteredProducts = response.products.filter(
+              (product: Product) =>
+                !cart.inCart.find(
+                  ({ product: item, quantity }) =>
+                    item.id === product.id && quantity >= product.stock
+                )
+            );
 
+            result = filteredProducts;
+          } else {
+            result = response.products;
+          }
+        });
+
+        return {
+          products: result,
+          total: response.total,
+        };
+      })
+    );
+  }
   setSearchText(searchText: string) {
     this.searchTextSubject.next(searchText);
     this.store.dispatch(setSearchText({ searchString: searchText }));
