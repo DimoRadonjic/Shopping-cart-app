@@ -119,8 +119,6 @@ export class ProductListService {
               }
             );
 
-            console.log('updatedWithCart', updatedWithCart);
-
             result = updatedWithCart.filter(
               (product: Product) => product.stock > 0
             );

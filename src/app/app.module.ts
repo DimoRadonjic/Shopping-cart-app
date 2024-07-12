@@ -33,7 +33,7 @@ import { GlobalProductService } from './global-product.service';
 import { productReducer } from './store/reducers/product.reducer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CurrencyFormatPipe } from './pipes';
-
+import { storageSyncMetaReducer } from 'ngrx-store-persist';
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,9 +60,12 @@ import { CurrencyFormatPipe } from './pipes';
     NgbRatingModule,
     ToastsContainer,
     ReactiveFormsModule,
+
     StoreModule.forRoot(
       { filter: filterReducer, products: productReducer },
-      {}
+      {
+        metaReducers: [storageSyncMetaReducer],
+      }
     ),
   ],
   providers: [

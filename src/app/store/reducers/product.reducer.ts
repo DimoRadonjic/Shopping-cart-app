@@ -19,6 +19,7 @@ export const productsInitialState = {
 
 export const productReducer = createReducer(
   productsInitialState,
+
   on(setProducts, (state, { productsArr }) => ({
     ...state,
     products: productsArr,
