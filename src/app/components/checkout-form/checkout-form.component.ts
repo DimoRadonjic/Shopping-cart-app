@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { Cart, CartItem, Product } from 'src/app/interfaces/interfaces';
+import { Cart } from 'src/app/interfaces/interfaces';
 import { Store } from '@ngrx/store';
 import { CheckoutService, ToastService } from 'src/app/services';
 import { CartService } from 'src/app/services/cart.service';

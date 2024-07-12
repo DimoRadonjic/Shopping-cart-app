@@ -29,8 +29,6 @@ export const productReducer = createReducer(
     totalProducts: totalProductsNum,
   })),
 
-  //Cart
-
   on(addInCartProducts, (state, { inCartProduct, quantity }) => {
     const updatedInCart = state.inCart.find(
       ({ product }) => product.id === inCartProduct.id
