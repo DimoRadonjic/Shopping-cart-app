@@ -3,8 +3,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CheckoutComponent } from 'src/app/components/checkout-form/checkout-form.component';
-import { Product } from 'src/app/interfaces/interfaces';
+import { Cart } from 'src/app/interfaces/interfaces';
 import { clearCart } from 'src/app/store/actions/product.actions';
+import { CartItemArray, ProductArray } from 'src/app/types/types';
 
 @Component({
   selector: 'app-cart-modal',
@@ -14,16 +15,9 @@ import { clearCart } from 'src/app/store/actions/product.actions';
 export class CartModalComponent implements OnInit {
   totalCartProducts: number = 0;
   totalCartPrice: number = 0;
-  inCartProducts: { product: Product; quantity: number }[] = [];
+  inCartProducts: CartItemArray = [];
 
-  cart$: Observable<{
-    products: Product[];
-    displayedProducts: Product[];
-    totalProducts: number;
-    inCart: { product: Product; quantity: number }[];
-    totalCartPrice: number;
-    totalCartProducts: number;
-  }>;
+  cart$: Observable<Cart>;
 
   private destroy$ = new Subject<void>();
 
@@ -35,10 +29,10 @@ export class CartModalComponent implements OnInit {
         currentPage: number;
       };
       products: {
-        products: Product[];
-        displayedProducts: Product[];
+        products: ProductArray;
+        displayedProducts: ProductArray;
         totalProducts: number;
-        inCart: { product: Product; quantity: number }[];
+        inCart: CartItemArray;
         totalCartProducts: number;
         totalCartPrice: number;
       };

@@ -2,10 +2,11 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { Product } from 'src/app/interfaces/interfaces';
+import { Cart, CartItem, Product } from 'src/app/interfaces/interfaces';
 import { Store } from '@ngrx/store';
 import { CheckoutService, ToastService } from 'src/app/services';
 import { CartService } from 'src/app/services/cart.service';
+import { CartItemArray, ProductArray } from 'src/app/types/types';
 
 @Component({
   selector: 'app-checkout',
@@ -16,15 +17,8 @@ export class CheckoutComponent implements OnInit {
   checkoutForm!: FormGroup;
   totalCartProducts: number = 0;
   totalCartPrice: number = 0;
-  inCartProducts: { product: Product; quantity: number }[] = [];
-  cart$: Observable<{
-    products: Product[];
-    displayedProducts: Product[];
-    totalProducts: number;
-    inCart: { product: Product; quantity: number }[];
-    totalCartPrice: number;
-    totalCartProducts: number;
-  }>;
+  inCartProducts: CartItemArray = [];
+  cart$: Observable<Cart>;
   @ViewChild('successCheckoutTpl', { static: true })
   successCheckoutTpl!: TemplateRef<any>;
   @ViewChild('failedCheckoutTpl', { static: true })
@@ -44,10 +38,10 @@ export class CheckoutComponent implements OnInit {
         currentPage: number;
       };
       products: {
-        products: Product[];
-        displayedProducts: Product[];
+        products: ProductArray;
+        displayedProducts: ProductArray;
         totalProducts: number;
-        inCart: { product: Product; quantity: number }[];
+        inCart: CartItemArray;
         totalCartProducts: number;
         totalCartPrice: number;
       };

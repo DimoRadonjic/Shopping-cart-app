@@ -9,7 +9,6 @@ import {
   share,
 } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { Product } from 'src/app/interfaces/interfaces';
 import {
   setCurrentPage,
   setPageSize,
@@ -19,6 +18,7 @@ import {
   setProducts,
   setTotalProducts,
 } from '../store/actions/product.actions';
+import { ProductArray } from '../types/types';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +34,7 @@ export class ProductListService {
   pageSize$ = this.pageSizeSubject.asObservable();
   currentPage$ = this.currentPageSubject.asObservable();
 
-  products$!: Observable<Product[]>;
+  products$!: Observable<ProductArray>;
   totalProducts$!: Observable<number>;
 
   constructor(
@@ -46,8 +46,8 @@ export class ProductListService {
         currentPage: number;
       };
       products: {
-        products: Product[];
-        displayedProducts: Product[];
+        products: ProductArray;
+        displayedProducts: ProductArray;
         totalProducts: number;
       };
     }>

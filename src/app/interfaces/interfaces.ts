@@ -1,3 +1,6 @@
+import { TemplateRef } from '@angular/core';
+import { CartItemArray, ProductArray, ToastType } from '../types/types';
+
 export interface Item {
   id: number;
   name: string;
@@ -61,4 +64,23 @@ export interface Product {
   images: string[];
   thumbnail: string;
 }
-``;
+
+export interface Toast {
+  template: TemplateRef<any>;
+  type: ToastType;
+  delay?: number;
+}
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+export interface Cart {
+  products: ProductArray;
+  displayedProducts: ProductArray;
+  totalProducts: number;
+  inCart: CartItemArray;
+  totalCartPrice: number;
+  totalCartProducts: number;
+}

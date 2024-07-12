@@ -3,8 +3,8 @@ import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Product } from 'src/app/interfaces/interfaces';
 import { ProductListService } from 'src/app/services';
+import { ProductArray, CartItemArray } from 'src/app/types/types';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -19,10 +19,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     currentPage: number;
   }>;
   productStore$: Observable<{
-    products: Product[];
-    displayedProducts: Product[];
+    products: ProductArray;
+    displayedProducts: ProductArray;
     totalProducts: number;
-    inCart: { product: Product; quantity: number }[];
+    inCart: CartItemArray;
   }>;
   displayedProducts: any[] = [];
   currentPage = 1;
@@ -40,9 +40,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
         currentPage: number;
       };
       products: {
-        products: Product[];
-        displayedProducts: Product[];
-        inCart: { product: Product; quantity: number }[];
+        products: ProductArray;
+        displayedProducts: ProductArray;
+        inCart: CartItemArray;
         totalProducts: number;
       };
     }>,
@@ -75,7 +75,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     });
   }
 
-  paginate(array: Product[], page: number, pageSize: number): Product[] {
+  paginate(array: ProductArray, page: number, pageSize: number): ProductArray {
     return array.slice((page - 1) * pageSize, page * pageSize);
   }
 

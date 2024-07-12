@@ -1,30 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { Product } from '../interfaces/interfaces';
+import { Cart, CartItem, Product } from '../interfaces/interfaces';
 import {
   addInCartProducts,
   clearCart,
   removeFromCartProducts,
   setProducts,
 } from '../store/actions/product.actions';
+import { ProductArray, CartItemArray } from '../types/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  cart$: Observable<{
-    products: Product[];
-    displayedProducts: Product[];
-    totalProducts: number;
-    inCart: { product: Product; quantity: number }[];
-    totalCartPrice: number;
-    totalCartProducts: number;
-  }>;
+  cart$: Observable<Cart>;
   totalCartProducts: number = 0;
   totalCartPrice: number = 0;
-  products: Product[] = [];
-  inCart: { product: Product; quantity: number }[] = [];
+  products: ProductArray = [];
+  inCart: CartItemArray = [];
   productsRemovedFromList: number[] = [];
 
   private destroy$ = new Subject<void>();
@@ -32,10 +26,10 @@ export class CartService {
   constructor(
     private store: Store<{
       products: {
-        products: Product[];
-        displayedProducts: Product[];
+        products: ProductArray;
+        displayedProducts: ProductArray;
         totalProducts: number;
-        inCart: { product: Product; quantity: number }[];
+        inCart: CartItemArray;
         totalCartPrice: number;
         totalCartProducts: number;
       };
@@ -72,16 +66,14 @@ export class CartService {
       : false;
   }
 
-  ifAvailableInCart(
-    productArg: Product
-  ): { product: Product; quantity: number } | undefined {
+  ifAvailableInCart(productArg: Product): CartItem | undefined {
     return this.inCart.find(
       ({ product, quantity }) => product.id === productArg.id && quantity > 0
     );
   }
 
   addProducts(newProduct: Product) {
-    let updatedProducts: Product[] = [...this.products];
+    let updatedProducts: ProductArray = [...this.products];
 
     const existingProductIndex = updatedProducts.findIndex(
       (product) => product.id === newProduct.id
@@ -132,7 +124,7 @@ export class CartService {
   }
 
   addCartProducts(newProduct: Product) {
-    let updatedCart: { product: Product; quantity: number }[] = [];
+    let updatedCart: CartItemArray = [];
     let found = this.ifAvailableInCart(newProduct);
 
     if (found) {
@@ -146,7 +138,7 @@ export class CartService {
   }
 
   removeCartProducts(newProduct: Product) {
-    let updatedCart: { product: Product; quantity: number }[] = [];
+    let updatedCart: CartItemArray = [];
     let found = this.ifAvailableInCart(newProduct);
 
     if (found) {
@@ -192,7 +184,7 @@ export class CartService {
 //     ? true
 //     : false;
 
-//   let updatedProducts: Product[] = [];
+//   let updatedProducts: ProductArray = [];
 
 //   if (add) {
 //     if (productAvailable) {
@@ -214,7 +206,7 @@ export class CartService {
 // }
 
 // updateCurrentInCartProducts(add: boolean, newProduct: Product): void {
-//   let updatedCart: { product: Product; quantity: number }[] = [];
+//   let updatedCart: CartItemArray = [];
 
 //   const found = this.inCart.find(
 //     ({ product }) => product.id === newProduct.id

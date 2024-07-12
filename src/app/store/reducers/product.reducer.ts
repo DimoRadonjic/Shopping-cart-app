@@ -6,12 +6,12 @@ import {
   removeFromCartProducts,
   clearCart,
 } from '../actions/product.actions';
-import { Product } from 'src/app/interfaces/interfaces';
+import { ProductArray, CartItemArray } from 'src/app/types/types';
 
 export const productsInitialState = {
-  products: [] as Product[],
-  displayedProducts: [] as Product[],
-  inCart: [] as { product: Product; quantity: number }[],
+  products: [] as ProductArray,
+  displayedProducts: [] as ProductArray,
+  inCart: [] as CartItemArray,
   totalCartProducts: 0,
   totalCartPrice: 0,
   totalProducts: 0,

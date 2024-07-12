@@ -3,8 +3,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CartModalComponent } from '../cart-modal/cart-modal.component';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { Product } from 'src/app/interfaces/interfaces';
+import { Cart } from 'src/app/interfaces/interfaces';
 import { ToastService } from 'src/app/services';
+import { ProductArray, CartItemArray } from 'src/app/types/types';
 
 @Component({
   selector: 'app-cart',
@@ -14,14 +15,7 @@ import { ToastService } from 'src/app/services';
 export class CartComponent implements OnInit {
   cartOpen: boolean = false;
 
-  cart$: Observable<{
-    products: Product[];
-    displayedProducts: Product[];
-    totalProducts: number;
-    inCart: { product: Product; quantity: number }[];
-    totalCartPrice: number;
-    totalCartProducts: number;
-  }>;
+  cart$: Observable<Cart>;
   totalCartProducts: number = 0;
   totalCartPrice: number = 0;
   private destroy$ = new Subject<void>();
@@ -34,10 +28,10 @@ export class CartComponent implements OnInit {
         currentPage: number;
       };
       products: {
-        products: Product[];
-        displayedProducts: Product[];
+        products: ProductArray;
+        displayedProducts: ProductArray;
         totalProducts: number;
-        inCart: { product: Product; quantity: number }[];
+        inCart: CartItemArray;
         totalCartProducts: number;
         totalCartPrice: number;
       };

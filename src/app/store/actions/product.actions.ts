@@ -1,9 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { Product } from 'src/app/interfaces/interfaces';
+import { ProductArray } from 'src/app/types/types';
 
 export const setProducts = createAction(
   '[Product API] Set Products',
-  props<{ productsArr: Product[] }>()
+  props<{ productsArr: ProductArray }>()
 );
 
 export const setTotalProducts = createAction(

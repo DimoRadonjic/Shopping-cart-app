@@ -3,7 +3,7 @@ import { ProductListService } from 'src/app/services';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { Product } from 'src/app/interfaces/interfaces';
+import { ProductArray } from 'src/app/types/types';
 
 @Component({
   selector: 'app-list-options',
@@ -14,7 +14,7 @@ export class ListOptionsComponent implements OnInit, OnDestroy {
   searchText: string = '';
   pageSize: number = 5;
   currentPage: number = 1;
-  products$: Observable<Product[]>;
+  products$: Observable<ProductArray>;
   totalProducts$: Observable<number>;
 
   private destroy$ = new Subject<void>();
