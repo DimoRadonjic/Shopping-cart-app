@@ -65,8 +65,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   fetchProductsFromStore() {
     this.productStore$.pipe(takeUntil(this.destroy$)).subscribe((state) => {
-      console.log('in cart', state);
-
       if (!this.inCart) {
         this.displayedProducts = state.products;
         this.totalItems = state.totalProducts;

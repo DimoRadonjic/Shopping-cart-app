@@ -59,6 +59,7 @@ export class ProductListService {
       this.searchText$,
       this.pageSize$,
       this.currentPage$,
+      this.cartService.cart$,
     ]).pipe(
       debounceTime(300),
       distinctUntilChanged(
@@ -102,15 +103,27 @@ export class ProductListService {
       map((response) => {
         this.cartService.cart$.subscribe((cart) => {
           if (cart.totalCartProducts > 0) {
-            const filteredProducts = response.products.filter(
-              (product: Product) =>
-                !cart.inCart.find(
-                  ({ product: item, quantity }) =>
-                    item.id === product.id && quantity >= product.stock
-                )
+            const updatedWithCart = response.products.map(
+              (product: Product) => {
+                let cartItem = cart.inCart.find(
+                  ({ product: cartItem }) => cartItem.id === product.id
+                );
+                if (cartItem && product.stock >= cartItem.quantity) {
+                  return {
+                    ...product,
+                    stock: product.stock - cartItem.quantity,
+                  };
+                } else {
+                  return product;
+                }
+              }
             );
 
-            result = filteredProducts;
+            console.log('updatedWithCart', updatedWithCart);
+
+            result = updatedWithCart.filter(
+              (product: Product) => product.stock > 0
+            );
           } else {
             result = response.products;
           }
